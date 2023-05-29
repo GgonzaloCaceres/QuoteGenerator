@@ -1,7 +1,12 @@
-import './App.css'
+import Quote from '../Quote'
+import style from './App.module.css'
 
 function App() {
-  return <></>
+  return (
+    <div className={style.mainContainer}>
+      <Quote />
+    </div>
+  )
 }
 
 export default App
