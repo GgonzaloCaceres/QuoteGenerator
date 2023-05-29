@@ -1,20 +1,23 @@
-import { useEffect, useState } from 'react'
 import style from './Quote.module.css'
-
-const URL = 'https://quote-garden.onrender.com/api/v3/quotes'
+import useQuote from '../../hooks/useQuote'
 
 const Quote = () => {
-  const [quote, setQuote] = useState('')
-
-  useEffect(() => {
-    fetch(URL, {})
-      .then(d => d.json())
-      .then(({ data }) => setQuote(data[0].quoteText))
-  }, [])
-
+  const { data } = useQuote()
   return (
     <div className={style.quoteContainer}>
-      <p>{quote}</p>
+      <section className={style.quoteRTextContainer}>
+        <p>{data.text}</p>
+      </section>
+      <section className={style.quoteInformationContainer}>
+        <div>
+          <span className={style.quoteAuthor}>{data.author}</span>
+          <span className={style.quoteGenre}>{data.genre}</span>
+        </div>
+        <svg
+          className={style.getMoreQuotesButton}
+          src="../../assets/arrow-icons.svg"
+        ></svg>
+      </section>
     </div>
   )
 }
