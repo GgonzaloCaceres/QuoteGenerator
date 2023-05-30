@@ -2,11 +2,13 @@ import style from './Quote.module.css'
 import useQuote from '../../hooks/useQuote'
 
 const Quote = () => {
-  const { data } = useQuote()
+  const { randomQuote } = useQuote()
+  const { data, error, loading } = randomQuote()
+  console.log(data, error, loading)
   return (
     <div className={style.quoteContainer}>
       <section className={style.quoteRTextContainer}>
-        <p>{data.text}</p>
+        <p>{loading ? 'Loading quote' : data.text}</p>
       </section>
       <section className={style.quoteInformationContainer}>
         <div>

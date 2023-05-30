@@ -11,7 +11,9 @@ export const getRandomQuote = () => {
         text: data[0].quoteText,
         author: data[0].quoteAuthor,
         genre: data[0].quoteGenre
-      }
+      } // }.catch(err => {
+      //   err.message = 'Failed obtaining a random quote.'
+      // })
     })
 }
 

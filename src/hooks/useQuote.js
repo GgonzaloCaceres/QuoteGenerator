@@ -1,37 +1,39 @@
 import { useState, useEffect } from 'react'
-import { getRandomQuote } from '../services/getQuotes'
+import { getRandomQuote, getMoreQuotes } from '../services/getQuotes'
 
 const useQuote = () => {
-  const [quoteState, setQuoteState] = useState({
-    data: {
-      text: '',
-      author: '',
-      genre: ''
-    },
-    error: null,
-    loading: true
-  })
-  console.log(quoteState)
-  useEffect(() => {
-    try {
-      setTimeout(() => getRandomQuote().then(handleQuote), 1000)
-    } catch (error) {
-      console.log(quoteState)
-      setQuoteState(lastValues => ({
-        ...lastValues,
-        error: true
+  const randomQuote = () => {
+    const [randomQuoteState, setRandomQuoteState] = useState({
+      data: {
+        text: '',
+        author: '',
+        genre: ''
+      },
+      error: null,
+      loading: true
+    })
+
+    const handleRandomQuote = (data, error) =>
+      setRandomQuoteState(lastValues => ({
+        error,
+        loading: false,
+        data
       }))
-    }
-  }, [])
 
-  const handleQuote = data =>
-    setQuoteState(lastValues => ({
-      ...lastValues,
-      loading: false,
-      data
-    }))
+    useEffect(() => {
+      const abortController = new AbortController()
+      try {
+        getRandomQuote().then(data => handleRandomQuote(data, null))
+      } catch (error) {
+        handleRandomQuote(null, error)
+      }
+      return () => abortController.abort()
+    }, [])
 
-  return quoteState
+    return randomQuoteState
+  }
+
+  return { randomQuote }
 }
 
 export default useQuote
